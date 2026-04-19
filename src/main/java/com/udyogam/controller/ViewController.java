@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.udyogam.entity.User;
 import com.udyogam.repository.JobRepository;
 import com.udyogam.repository.UserRepository;
+import com.udyogam.repository.ApplicationRepository;
 import com.udyogam.service.ApplicationService;
 import com.udyogam.service.JobService;
 
@@ -19,12 +20,14 @@ public class ViewController {
     private final UserRepository userRepo;
     private final JobService jobService;
     private final ApplicationService applicationService;
+    private final ApplicationRepository applicationRepo;
 
-    public ViewController(JobRepository jobRepo, UserRepository userRepo, JobService jobService, ApplicationService applicationService) {
+    public ViewController(JobRepository jobRepo, UserRepository userRepo, JobService jobService, ApplicationService applicationService, ApplicationRepository applicationRepo) {
         this.jobRepo = jobRepo;
         this.userRepo = userRepo;
         this.jobService = jobService;
         this.applicationService = applicationService;
+        this.applicationRepo = applicationRepo;
     }
 
     @GetMapping("/login")
@@ -85,5 +88,12 @@ public class ViewController {
             return "redirect:/jobs-page?error";
         }
         return "redirect:/student-dashboard";
+    }
+
+    @GetMapping("/view-applications")
+    public String viewApplications(Model model, Principal principal) {
+        if (principal == null) return "redirect:/login";
+        model.addAttribute("applications", applicationRepo.findAll());
+        return "employer-applications";
     }
 }

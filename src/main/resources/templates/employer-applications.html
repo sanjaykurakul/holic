@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Applicants - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        function filterApplications() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+        
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+
+        async function updateStatus(action, applicationId) {
+            showLoader();
+            try {
+                const response = await fetch(`/employer/${action}/${applicationId}`, {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Failed to update status');
+                    document.getElementById('loader').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
+
+<div class="glass-container dashboard-container fade-in" style="max-width: 1200px;">
+    <h2>Job Applications</h2>
+
+    <div class="nav-menu" style="justify-content: space-between; align-items: center;">
+        <input type="text" id="search" placeholder="Search applicants, jobs, or status..." onkeyup="filterApplications()" style="max-width: 400px; margin: 0;">
+        <a th:href="@{/employer-dashboard}" class="btn-secondary btn" onclick="showLoader()">Back to Dashboard</a>
+    </div>
+
+    <div class="table-container mt-2">
+        <table>
+            <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Email</th>
+                <th>Job Title</th>
+                <th>Applied Date</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="app : ${applications}">
+                <td th:text="${app.user.name}" style="font-weight: 500;"></td>
+                <td th:text="${app.user.email}" style="color: var(--text-muted);"></td>
+                <td th:text="${app.job.title}"></td>
+                <td th:text="${app.appliedDate}"></td>
+                <td>
+                    <span th:if="${app.status == 'APPLIED'}" th:text="${app.status}" style="background: rgba(59, 130, 246, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 12px;"></span>
+                    <span th:if="${app.status == 'SHORTLISTED'}" th:text="${app.status}" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary); padding: 4px 10px; border-radius: 20px; font-size: 12px;"></span>
+                    <span th:if="${app.status == 'REJECTED'}" th:text="${app.status}" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: 20px; font-size: 12px;"></span>
+                </td>
+                <td style="text-align: right;">
+                    <button th:if="${app.status == 'APPLIED'}" class="btn" style="padding: 6px 12px; font-size: 14px; margin-right: 5px;" th:onclick="'updateStatus(\'shortlist\', ' + ${app.id} + ')'">Shortlist</button>
+                    <button th:if="${app.status == 'APPLIED'}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 14px; background: rgba(239, 68, 68, 0.1); color: #ef4444;" th:onclick="'updateStatus(\'reject\', ' + ${app.id} + ')'">Reject</button>
+                    <span th:if="${app.status != 'APPLIED'}" style="color: var(--text-muted); font-size: 14px;">Processed</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(applications)}">
+                <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    No applications available.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
