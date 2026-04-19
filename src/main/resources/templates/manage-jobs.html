@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Jobs - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        function filterJobs() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+    </script>
+</head>
+<body>
+
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
+
+<div class="glass-container dashboard-container fade-in" style="max-width: 1200px;">
+    <h2>Manage Your Posted Jobs</h2>
+
+    <div class="nav-menu" style="justify-content: space-between; align-items: center;">
+        <input type="text" id="search" placeholder="Search your jobs..." onkeyup="filterJobs()" style="max-width: 400px; margin: 0;">
+        <div style="display: flex; gap: 10px;">
+            <a th:href="@{/post-job}" class="btn" onclick="showLoader()">Post New Job</a>
+            <a th:href="@{/employer-dashboard}" class="btn-secondary btn" onclick="showLoader()">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="table-container mt-2">
+        <table>
+            <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Salary</th>
+                <th>Required Skills</th>
+                <th style="text-align: right;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job : ${jobs}">
+                <td th:text="${job.title}" style="font-weight: 500;"></td>
+                <td th:text="${job.location}" style="color: var(--text-muted);"></td>
+                <td th:text="${job.salary != null ? job.salary : 'Not specified'}"></td>
+                <td>
+                    <span th:text="${job.skills}" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary); padding: 4px 10px; border-radius: 20px; font-size: 12px;"></span>
+                </td>
+                <td style="text-align: right; display: flex; justify-content: flex-end; gap: 5px;">
+                    <a th:href="@{/edit-job/{id}(id=${job.id})}" class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="showLoader()">Edit</a>
+                    <form th:action="@{/delete-job/{id}(id=${job.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this job?'); showLoader();">
+                        <button type="submit" class="btn btn-secondary" style="padding: 6px 12px; font-size: 14px; background: rgba(239, 68, 68, 0.1); color: #ef4444;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(jobs)}">
+                <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    You haven't posted any jobs yet.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

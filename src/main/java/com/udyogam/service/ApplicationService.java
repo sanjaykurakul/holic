@@ -11,6 +11,9 @@ import com.udyogam.entity.User;
 import com.udyogam.repository.ApplicationRepository;
 import com.udyogam.repository.JobRepository;
 import com.udyogam.repository.UserRepository;
+import com.udyogam.repository.NotificationRepository;
+import com.udyogam.entity.Notification;
+import java.time.LocalDateTime;
 
 @Service
 public class ApplicationService {
@@ -18,16 +21,17 @@ public class ApplicationService {
     private final ApplicationRepository appRepo;
     private final UserRepository userRepo;
     private final JobRepository jobRepo;
-    //private final EmailService emailService;
+    private final NotificationRepository notificationRepo;
 
     public ApplicationService(ApplicationRepository appRepo,
                               UserRepository userRepo,
-                              JobRepository jobRepo
+                              JobRepository jobRepo,
+                              NotificationRepository notificationRepo
                               ) {
         this.appRepo = appRepo;
         this.userRepo = userRepo;
         this.jobRepo = jobRepo;
-        //this.emailService = emailService;
+        this.notificationRepo = notificationRepo;
     }
 
     public Application applyForJob(Long userId, Long jobId) {
@@ -70,13 +74,13 @@ public class ApplicationService {
         app.setStatus("SHORTLISTED");
         Application updated = appRepo.save(app);
 
-        // 📧 Notify user
-//        emailService.sendMail(
-//                app.getUser().getEmail(),
-//                "Application Update",
-//                "Congratulations! You have been shortlisted for: " +
-//                        app.getJob().getTitle()
-//        );
+        // Notify user
+        Notification notification = new Notification();
+        notification.setUser(app.getUser());
+        notification.setMessage("Congratulations! You have been shortlisted for: " + app.getJob().getTitle());
+        notification.setRead(false);
+        notification.setCreatedAt(LocalDateTime.now());
+        notificationRepo.save(notification);
 
         return updated;
     }

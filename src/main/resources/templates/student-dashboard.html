@@ -38,7 +38,37 @@
         </div>
     </div>
 
-    <div class="auth-links">
+    <!-- Resume Upload Section -->
+    <div style="margin-top: 30px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+        <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Resume Management</h3>
+        <p th:if="${resumePath}" style="margin-bottom: 15px; color: var(--secondary);">
+            ✅ Current Resume: <strong th:text="${resumePath}"></strong>
+        </p>
+        <p th:unless="${resumePath}" style="margin-bottom: 15px; color: var(--danger);">
+            ⚠️ No resume uploaded yet.
+        </p>
+        <form th:action="@{/upload-resume}" method="post" enctype="multipart/form-data" onsubmit="showLoader()" style="display: flex; gap: 10px; align-items: center;">
+            <input type="file" name="file" required style="padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(0,0,0,0.2); color: white; flex-grow: 1;">
+            <button type="submit" class="btn">Upload Resume</button>
+        </form>
+        <div th:if="${param.error == 'empty_file'}" style="color: var(--danger); margin-top: 10px;">Please select a file to upload.</div>
+        <div th:if="${param.error == 'upload_failed'}" style="color: var(--danger); margin-top: 10px;">Failed to upload the file. Try again.</div>
+        <div th:if="${param.success == 'resume_uploaded'}" style="color: var(--secondary); margin-top: 10px;">Resume uploaded successfully!</div>
+    </div>
+
+    <!-- Notifications Section -->
+    <div style="margin-top: 30px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+        <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Notifications</h3>
+        <div th:if="${#lists.isEmpty(notifications)}" style="color: var(--text-muted); text-align: center; padding: 20px;">
+            No new notifications.
+        </div>
+        <div th:each="note : ${notifications}" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--secondary);">
+            <div th:text="${note.message}" style="font-weight: 500;"></div>
+            <div th:text="${#temporals.format(note.createdAt, 'dd MMM yyyy, HH:mm')}" style="font-size: 12px; color: var(--text-muted); margin-top: 5px;"></div>
+        </div>
+    </div>
+
+    <div class="auth-links" style="margin-top: 30px;">
         <form th:action="@{/logout}" method="post" style="display:inline;" onsubmit="showLoader()">
             <button type="submit" class="btn-secondary" style="padding: 8px 16px; font-size: 14px;">Logout</button>
         </form>
