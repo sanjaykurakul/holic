@@ -54,14 +54,6 @@ public class ViewController {
         return "redirect:/student-dashboard";
     }
 
-    @GetMapping("/student-dashboard")
-    public String studentDashboard(Model model, Principal principal) {
-        if (principal == null) return "redirect:/login";
-        User user = userRepo.findByEmail(principal.getName()).orElseThrow();
-        model.addAttribute("resumePath", user.getResumePath());
-        model.addAttribute("notifications", notificationRepo.findByUserIdOrderByCreatedAtDesc(user.getId()));
-        return "student-dashboard";
-    }
 
     @GetMapping("/jobs-page")
     public String jobs(Model model) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.udyogam.entity.User;
 import com.udyogam.repository.UserRepository;
+import com.udyogam.repository.NotificationRepository;
 import com.udyogam.service.AnalyticsService;
 
 @Controller
@@ -15,10 +16,12 @@ public class AnalyticsController {
 
     private final AnalyticsService service;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
 
-    public AnalyticsController(AnalyticsService service, UserRepository userRepository) {
+    public AnalyticsController(AnalyticsService service, UserRepository userRepository, NotificationRepository notificationRepository) {
         this.service = service;
         this.userRepository = userRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     // Employer Dashboard View
@@ -36,6 +39,8 @@ public class AnalyticsController {
         if (principal == null) return "redirect:/login";
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
         model.addAttribute("stats", service.getStudentStats(user.getId()));
+        model.addAttribute("resumePath", user.getResumePath());
+        model.addAttribute("notifications", notificationRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));
         return "student-dashboard";
     }
 }
