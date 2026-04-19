@@ -1,0 +1,31 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Employer Dashboard</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h2>Employer Dashboard</h2>-->
+
+<!--<a th:href="@{/post-job}">Post New Job</a><br>-->
+<!--<a th:href="@{/employer/applications}">View Applicants</a>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employer Dashboard</title>
+</head>
+<body>
+
+<h2>Employer Dashboard</h2>
+
+<p>Total Jobs: <span th:text="${stats.totalJobs}"></span></p>
+<p>Total Applicants: <span th:text="${stats.totalApplicants}"></span></p>
+<p>Shortlisted Candidates: <span th:text="${stats.shortlisted}"></span></p>
+
+</body>
+</html>

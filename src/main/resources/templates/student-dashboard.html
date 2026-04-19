@@ -1,0 +1,32 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Student Dashboard</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h2>Student Dashboard</h2>-->
+
+<!--<a th:href="@{/jobs}">Browse Jobs</a><br>-->
+<!--<a th:href="@{/applications/user/{id}(id=${userId})}">My Applications</a>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+
+<h2>Student Dashboard</h2>
+
+<p>Total Applications: <span th:text="${stats.totalApplications}"></span></p>
+<p>Applied: <span th:text="${stats.applied}"></span></p>
+<p>Shortlisted: <span th:text="${stats.shortlisted}"></span></p>
+<p>Rejected: <span th:text="${stats.rejected}"></span></p>
+
+</body>
+</html>

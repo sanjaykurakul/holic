@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Jobs</title>
+    <script>
+        function filterJobs() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+    </script>
+</head>
+<body>
+
+<h2>Job Listings</h2>
+
+<input type="text" id="search" placeholder="Search jobs..." onkeyup="filterJobs()">
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Skills</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="job : ${jobs}">
+        <td th:text="${job.title}"></td>
+        <td th:text="${job.location}"></td>
+        <td th:text="${job.skills}"></td>
+        <td>
+            <a th:href="@{/apply/{id}(id=${job.id})}">Apply</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
