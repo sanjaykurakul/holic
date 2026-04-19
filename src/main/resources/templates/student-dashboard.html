@@ -1,32 +1,55 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <title>Student Dashboard</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<h2>Student Dashboard</h2>-->
-
-<!--<a th:href="@{/jobs}">Browse Jobs</a><br>-->
-<!--<a th:href="@{/applications/user/{id}(id=${userId})}">My Applications</a>-->
-
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Student Dashboard</title>
+    <title>Student Dashboard - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<h2>Student Dashboard</h2>
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
 
-<p>Total Applications: <span th:text="${stats.totalApplications}"></span></p>
-<p>Applied: <span th:text="${stats.applied}"></span></p>
-<p>Shortlisted: <span th:text="${stats.shortlisted}"></span></p>
-<p>Rejected: <span th:text="${stats.rejected}"></span></p>
+<div class="glass-container dashboard-container fade-in">
+    <h2>Student Dashboard</h2>
+
+    <div class="nav-menu">
+        <a th:href="@{/jobs-page}" class="btn" onclick="showLoader()">Browse Jobs</a>
+        <!-- Assuming userId is in session/model but for now just link to jobs -->
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" th:text="${stats.totalApplications ?: 0}">0</div>
+            <div class="stat-label">Total Applications</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="color: var(--primary);" th:text="${stats.applied ?: 0}">0</div>
+            <div class="stat-label">Currently Applied</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="color: var(--secondary);" th:text="${stats.shortlisted ?: 0}">0</div>
+            <div class="stat-label">Shortlisted</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="color: var(--danger);" th:text="${stats.rejected ?: 0}">0</div>
+            <div class="stat-label">Rejected</div>
+        </div>
+    </div>
+
+    <div class="auth-links">
+        <form th:action="@{/logout}" method="post" style="display:inline;" onsubmit="showLoader()">
+            <button type="submit" class="btn-secondary" style="padding: 8px 16px; font-size: 14px;">Logout</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+    }
+</script>
 
 </body>
 </html>

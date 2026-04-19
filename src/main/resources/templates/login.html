@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
-    <style>
-        body { font-family: Arial; text-align: center; }
-        form { margin-top: 50px; }
-        input { margin: 10px; padding: 8px; }
-    </style>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Login - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<h2>Login</h2>
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
 
-<form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <button type="submit">Login</button>
-</form>
+<div class="glass-container fade-in">
+    <h2>Welcome Back</h2>
+    
+    <div th:if="${param.error}" style="color: var(--danger); text-align: center; margin-bottom: 15px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 8px;">
+        Invalid username or password.
+    </div>
 
-<p>New user? <a th:href="@{/register}">Register here</a></p>
+    <form th:action="@{/login}" method="post" onsubmit="showLoader()">
+        <input type="text" name="username" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="auth-links">
+        New user? <a th:href="@{/register}">Create an account</a>
+    </div>
+</div>
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+    }
+</script>
 
 </body>
 </html>

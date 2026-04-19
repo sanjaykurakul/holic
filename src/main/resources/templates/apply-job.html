@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Apply Job</title>
+    <title>Confirm Application - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
 
-<h2>Apply for Job</h2>
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+    </div>
 
-<form th:action="@{/applications/apply}" method="post">
-    <input type="hidden" name="jobId" th:value="${jobId}">
-    <input type="hidden" name="userId" th:value="${userId}">
-    <button type="submit">Confirm Apply</button>
-</form>
+    <div class="glass-container fade-in">
+        <h2>Review Application</h2>
+
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">
+            You are about to submit your profile and application for this job position. Please confirm to proceed.
+        </p>
+
+        <form th:action="@{/apply-job}" method="post" onsubmit="showLoader()">
+            <input type="hidden" name="jobId" th:value="${jobId}">
+            <input type="hidden" name="userId" th:value="${userId}">
+
+            <button type="submit" style="width: 100%;">Submit Application</button>
+            <a th:href="@{/jobs-page}" class="btn btn-secondary" onclick="showLoader()"
+                style="display: block; text-align: center; margin-top: 10px;">Cancel</a>
+        </form>
+    </div>
+
+    <script>
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+    </script>
 
 </body>
+
 </html>

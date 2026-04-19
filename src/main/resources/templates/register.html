@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <title>Register - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<h2>Register</h2>
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
 
-<form th:action="@{/auth/register}" method="post">
-    <input type="text" name="name" placeholder="Name" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
+<div class="glass-container fade-in">
+    <h2>Create Account</h2>
 
-    <select name="role">
-        <option value="STUDENT">Student</option>
-        <option value="EMPLOYER">Employer</option>
-    </select><br><br>
+    <form th:action="@{/auth/register}" method="post" onsubmit="showLoader()">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
 
-    <button type="submit">Register</button>
-</form>
+        <select name="role">
+            <option value="STUDENT">I am a Job Seeker</option>
+            <option value="EMPLOYER">I am an Employer</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="auth-links">
+        Already have an account? <a th:href="@{/login}">Login here</a>
+    </div>
+</div>
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+    }
+</script>
 
 </body>
 </html>

@@ -1,16 +1,13 @@
 package com.udyogam.controller;
 
-
-
-
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
 import com.udyogam.entity.User;
 import com.udyogam.service.AuthService;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -21,12 +18,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public String register(@ModelAttribute User user, Model model) {
         try {
-            User saved = service.register(user);
-            return ResponseEntity.ok(saved);
+            service.register(user);
+            return "redirect:/login?registered=true";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Registration failed");
+            model.addAttribute("error", "Registration failed");
+            return "register";
         }
     }
 

@@ -66,7 +66,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/login", "/register", "/style.css", "/app.js", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -74,11 +74,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
-                )
-                .authenticationProvider(authenticationProvider(
-                        new CustomUserDetailsService(null), // ❌ DON'T DO THIS
-                        passwordEncoder()
-                ));
+                );
 
         return http.build();
     }

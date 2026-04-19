@@ -1,22 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Post Job</title>
+    <title>Post Job - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<h2>Post Job</h2>
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
 
-<form th:action="@{/jobs/create/{id}(id=${employerId})}" method="post">
+<div class="glass-container fade-in" style="max-width: 600px;">
+    <h2>Post a New Job</h2>
 
-    <input type="text" name="title" placeholder="Job Title" required><br>
-    <textarea name="description" placeholder="Description"></textarea><br>
-    <input type="text" name="skills" placeholder="Skills"><br>
-    <input type="text" name="location" placeholder="Location"><br>
-    <input type="number" name="salary" placeholder="Salary"><br>
+    <form th:action="@{/post-job}" method="post" onsubmit="showLoader()">
 
-    <button type="submit">Post Job</button>
-</form>
+        <div style="display: grid; gap: 16px;">
+            <div>
+                <label style="color: var(--text-muted); font-size: 14px; margin-bottom: 5px; display: block;">Job Title</label>
+                <input type="text" name="title" placeholder="e.g. Senior Software Engineer" required>
+            </div>
+
+            <div>
+                <label style="color: var(--text-muted); font-size: 14px; margin-bottom: 5px; display: block;">Location</label>
+                <input type="text" name="location" placeholder="e.g. Remote, New York" required>
+            </div>
+
+            <div>
+                <label style="color: var(--text-muted); font-size: 14px; margin-bottom: 5px; display: block;">Required Skills</label>
+                <input type="text" name="skills" placeholder="e.g. Java, Spring Boot, React">
+            </div>
+
+            <div>
+                <label style="color: var(--text-muted); font-size: 14px; margin-bottom: 5px; display: block;">Salary ($)</label>
+                <input type="number" name="salary" placeholder="e.g. 120000">
+            </div>
+
+            <div>
+                <label style="color: var(--text-muted); font-size: 14px; margin-bottom: 5px; display: block;">Job Description</label>
+                <textarea name="description" placeholder="Describe the role, responsibilities, and benefits..." required></textarea>
+            </div>
+        </div>
+
+        <button type="submit" style="margin-top: 10px;">Post Job Listing</button>
+        <a th:href="@{/employer-dashboard}" class="btn btn-secondary" onclick="showLoader()">Cancel</a>
+    </form>
+</div>
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+    }
+</script>
 
 </body>
 </html>

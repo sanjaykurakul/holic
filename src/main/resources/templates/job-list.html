@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Jobs</title>
+    <title>Jobs - NexJob</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
     <script>
         function filterJobs() {
             let input = document.getElementById("search").value.toLowerCase();
@@ -12,34 +14,55 @@
                 row.style.display = text.includes(input) ? "" : "none";
             });
         }
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
     </script>
 </head>
 <body>
 
-<h2>Job Listings</h2>
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
 
-<input type="text" id="search" placeholder="Search jobs..." onkeyup="filterJobs()">
+<div class="glass-container dashboard-container fade-in" style="max-width: 1200px;">
+    <h2>Job Listings</h2>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Location</th>
-        <th>Skills</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="job : ${jobs}">
-        <td th:text="${job.title}"></td>
-        <td th:text="${job.location}"></td>
-        <td th:text="${job.skills}"></td>
-        <td>
-            <a th:href="@{/apply/{id}(id=${job.id})}">Apply</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <div class="nav-menu" style="justify-content: space-between; align-items: center;">
+        <input type="text" id="search" placeholder="Search for jobs, skills, or locations..." onkeyup="filterJobs()" style="max-width: 400px; margin: 0;">
+        <a th:href="@{/student-dashboard}" class="btn-secondary btn" onclick="showLoader()">Back to Dashboard</a>
+    </div>
+
+    <div class="table-container mt-2">
+        <table>
+            <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Required Skills</th>
+                <th style="text-align: right;">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job : ${jobs}">
+                <td th:text="${job.title}" style="font-weight: 500;"></td>
+                <td th:text="${job.location}" style="color: var(--text-muted);"></td>
+                <td>
+                    <span th:text="${job.skills}" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary); padding: 4px 10px; border-radius: 20px; font-size: 12px;"></span>
+                </td>
+                <td style="text-align: right;">
+                    <a th:href="@{/apply/{id}(id=${job.id})}" class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="showLoader()">Apply Now</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(jobs)}">
+                <td colspan="4" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    No jobs available at the moment.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

@@ -38,6 +38,12 @@ public class ApplicationService {
         Job job = jobRepo.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
+        if (appRepo.findByUserId(userId)
+                .stream()
+                .anyMatch(a -> a.getJob().getId().equals(jobId))) {
+            throw new RuntimeException("Already applied for this job");
+        }
+
         Application app = new Application();
         app.setUser(user);
         app.setJob(job);
@@ -45,11 +51,6 @@ public class ApplicationService {
         app.setAppliedDate(LocalDate.now());
 
         Application saved = appRepo.save(app);
-        if (appRepo.findByUserId(userId)
-                .stream()
-                .anyMatch(a -> a.getJob().getId().equals(jobId))) {
-            throw new RuntimeException("Already applied for this job");
-        }
 
 //        // 📧 Send email to user
 //        //emailService.sendMail(
