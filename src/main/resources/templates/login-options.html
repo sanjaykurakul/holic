@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login Options - Udyogam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <style>
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #2b2b2b;
+            color: #ffffff;
+            border: 2px solid #444;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn:hover {
+            background-color: #007bff;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        
+        .option-desc {
+            font-size: 14px;
+            font-weight: normal;
+            color: #bbbbbb;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+</div>
+
+<div class="glass-container fade-in">
+    <h2>Welcome to Udyogam</h2>
+    <p style="text-align: center; color: #bbbbbb; margin-bottom: 30px;">Please select how you would like to continue</p>
+    
+    <a th:href="@{/login}" class="option-btn" onclick="showLoader()">
+        I am a Job Seeker
+        <span class="option-desc">Find jobs, track applications, and build your career.</span>
+    </a>
+    
+    <a th:href="@{/login}" class="option-btn" onclick="showLoader()">
+        I am an Employer
+        <span class="option-desc">Post jobs, review resumes, and hire top talent.</span>
+    </a>
+    
+    <div class="auth-links" style="margin-top: 30px;">
+        New user? <a th:href="@{/register}">Create an account</a>
+    </div>
+</div>
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>

@@ -34,7 +34,7 @@ public class ViewController {
         this.notificationRepo = notificationRepo;
     }
 
-    @GetMapping("/")
+    @GetMapping({"/", "/index.html"})
     public String index() {
         return "index";
     }
@@ -42,6 +42,11 @@ public class ViewController {
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("/login-options")
+    public String loginOptions() {
+        return "login-options";
     }
 
     @GetMapping("/register")
