@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search India | Udyogam</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff;
+            color: #2d2d2d;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            height: 64px;
+            border-bottom: 1px solid #e4e2e0;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            color: #003399;
+            font-size: 26px;
+            font-weight: 800;
+            text-decoration: none;
+            margin-right: 32px;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d2d2d;
+            font-size: 14px;
+            padding: 0 16px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            font-weight: bold;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 3px;
+            background-color: #2557a7;
+        }
+
+        .nav-links a:hover {
+            color: #2557a7;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .header-right a {
+            text-decoration: none;
+            color: #2557a7;
+            font-weight: bold;
+            margin-left: 24px;
+        }
+        
+        .header-right .post-job {
+            color: #2d2d2d;
+            font-weight: normal;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            padding: 0 16px;
+        }
+
+        .search-box {
+            display: flex;
+            border: 1px solid #949494;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 850px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: #fff;
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            flex: 1;
+        }
+
+        .search-input input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            width: 100%;
+            margin-left: 8px;
+            color: #2d2d2d;
+        }
+        
+        .search-input input::placeholder {
+            color: #595959;
+        }
+
+        .search-divider {
+            width: 1px;
+            background-color: #e4e2e0;
+            margin: 12px 0;
+        }
+
+        .search-button-container {
+            padding: 8px;
+        }
+
+        .find-jobs-btn {
+            background-color: #2557a7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .find-jobs-btn:hover {
+            background-color: #164081;
+        }
+
+        /* Main Content */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex-grow: 1;
+            margin-top: 60px;
+            padding: 0 16px;
+        }
+
+        .big-logo {
+            color: #003399;
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            letter-spacing: -1.5px;
+            position: relative;
+        }
+        
+        /* Simulating the Indeed logo arc */
+        .big-logo::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-top: 5px solid #003399;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-radius: 50% 50% 0 0;
+            transform: rotate(-30deg);
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #2d2d2d;
+        }
+
+        .main-subtitle {
+            font-size: 16px;
+            color: #2d2d2d;
+            margin-bottom: 24px;
+        }
+
+        .get-started-btn {
+            background-color: #2557a7;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .get-started-btn span {
+            margin-left: 8px;
+        }
+
+        .get-started-btn:hover {
+            background-color: #164081;
+        }
+
+        .language-link {
+            margin-top: 60px;
+            font-size: 14px;
+            color: #595959;
+        }
+
+        .language-link a {
+            color: #2557a7;
+            text-decoration: none;
+        }
+        
+        .language-link a:hover {
+            text-decoration: underline;
+        }
+
+        .trending {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #595959;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .trending span {
+            margin-left: 4px;
+            font-size: 10px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #e4e2e0;
+            padding: 24px;
+            font-size: 14px;
+            color: #595959;
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #2d2d2d;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom a {
+            color: #595959;
+            text-decoration: none;
+        }
+        
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        
+        .svg-icon {
+            width: 24px;
+            height: 24px;
+            fill: #2d2d2d;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .header-right {
+                display: none;
+            }
+            .search-box {
+                flex-direction: column;
+            }
+            .search-divider {
+                width: 100%;
+                height: 1px;
+                margin: 0;
+            }
+            .search-button-container {
+                padding: 16px;
+            }
+            .find-jobs-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <a href="/" class="logo">udyogam</a>
+            <nav class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="#">Company reviews</a>
+                <a href="#">Salary guide</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <a href="/login">Sign in</a>
+            <div style="width: 1px; height: 16px; background-color: #e4e2e0; margin: 0 16px;"></div>
+            <a href="/post-job" class="post-job">Employers / Post Job</a>
+        </div>
+    </header>
+
+    <div class="search-section">
+        <form action="/jobs-page" method="get" class="search-box">
+            <div class="search-input">
+                <svg class="svg-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                <input type="text" name="q" placeholder="Job title, keywords, or company">
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-input">
+                <svg class="svg-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"></path></svg>
+                <input type="text" name="l" placeholder="City, state, zip code, or &quot;remote&quot;">
+            </div>
+            <div class="search-button-container">
+                <button type="submit" class="find-jobs-btn">Find jobs</button>
+            </div>
+        </form>
+    </div>
+
+    <main>
+        <div class="big-logo">
+            udyogam
+        </div>
+        <div class="main-title">Your next job starts here</div>
+        <div class="main-subtitle">Create an account or sign in to see your personalised job recommendations.</div>
+        <a href="/login" class="get-started-btn">
+            Get Started 
+            <span>&rarr;</span>
+        </a>
+
+        <div class="language-link">
+            Udyogam <a href="#">हिंदी</a> में भी उपलब्ध है
+        </div>
+
+        <div class="trending">
+            What's trending on Udyogam <span>&#9662;</span>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">Career advice</a>
+            <a href="/jobs-page">Browse jobs</a>
+            <a href="#">Browse companies</a>
+            <a href="#">Salaries</a>
+            <a href="#">Udyogam Events</a>
+            <a href="#">Work at Udyogam</a>
+            <a href="#">Countries</a>
+            <a href="#">About</a>
+            <a href="#">Help</a>
+            <a href="#">ESG at Udyogam</a>
+            <a href="#">Guidelines for safe job search</a>
+            <a href="/post-job">Post a job</a>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Udyogam</span>
+            <a href="#">Accessibility at Udyogam</a>
+            <a href="#">Privacy Centre and Ad Choices</a>
+            <a href="#">Terms</a>
+        </div>
+    </footer>
+
+</body>
+</html>
